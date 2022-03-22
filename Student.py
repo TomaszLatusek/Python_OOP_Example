@@ -1,5 +1,3 @@
-from calendar import c
-from operator import truediv
 from Grade import Grade
 from User import *
 
@@ -20,8 +18,10 @@ class Student(User):
         self.courses.append(course)
 
     def showCourses(self):
+        i = 1
         for course in self.courses:
-            print(course.id, course.name)
+            print("%d. %s %s" % (i, course.id, course.name))
+            i += 1
 
     def menu(self):
         self.chooseCourse()
@@ -50,6 +50,7 @@ class Student(User):
         while(x != 0):
             print("\n1. Show average")
             print("2. Compare to others")
+            print("3. Show final grade")
             x = input("Your option: ")
             if(x == 0):
                 continue
@@ -57,6 +58,8 @@ class Student(User):
                 print("%f" % self.getAverage(theCourse))
             if(x == 2):
                 self.compareToOthers(theCourse)
+            if(x == 3):
+                self.showFinalGrade(theCourse)
 
     def getAverage(self, theCourse):
         i = 0
@@ -111,13 +114,15 @@ class Student(User):
                 grade.value = value
 
     def showFinalGrade(self, theCourse):
-        for grade in self.finalGrades:
-            if(grade.course == theCourse):
-                print("Final grade in %s class: %f" %
-                      (theCourse.name, grade.value))
+        grade = self.hasFinalGrade(theCourse)
+        if(grade != False):
+            print("Final grade in %s class: %f" %
+                  (theCourse.name, grade.value))
+        else:
+            print("No final grade yet")
 
     def hasFinalGrade(self, theCourse):
         for grade in self.finalGrades:
             if(grade.course == theCourse):
-                return True
+                return grade
         return False

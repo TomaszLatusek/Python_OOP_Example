@@ -1,4 +1,3 @@
-import imp
 from Student import *
 from Teacher import *
 from Course import *
